@@ -5,13 +5,22 @@ import PropTypes from 'prop-types';
 class Header extends Component {
   state = {
     currency: 'BRL',
-    total: 0,
+  };
+
+  calculateTotal = () => {
+    const { expenses } = this.props;
+    let total = 0;
+    total = expenses.reduce((account, current) => {
+      const value = current.value * current.exchangeRates[current.currency].ask;
+      const actualValue = parseFloat(value) + parseFloat(account);
+      return actualValue.toFixed(2);
+    }, 0);
+    return total;
   };
 
   render() {
     const {
       currency,
-      total,
     } = this.state;
     const { email } = this.props;
 
@@ -22,7 +31,7 @@ class Header extends Component {
             Total de despesas:
           </p>
           <p data-testid="total-field">
-            { total }
+            { this.calculateTotal() }
           </p>
           <p data-testid="header-currency-field">
             { currency }
@@ -43,6 +52,7 @@ Header.propTypes = {
 const mapStateToProps = (globalState) => ({
   email: globalState.user.email,
   currency: '',
+  expenses: globalState.wallet.expenses,
 });
 
 export default connect(mapStateToProps)(Header);

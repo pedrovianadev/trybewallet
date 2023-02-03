@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchCurrencies } from '../redux/actions';
+import { fetchCurrencies, fetchPrices } from '../redux/actions';
+
+const INITIAL_STATE = {
+  description: '',
+  tag: 'Alimentação',
+  value: '',
+  method: 'Dinheiro',
+  currency: 'USD',
+};
 
 class WalletForm extends Component {
-  state = {
-    value: 0,
-    currency: 'USD',
-    method: 'Dinheiro',
-    category: 'Alimentação',
-    description: '',
-  };
+  state = INITIAL_STATE;
 
   async componentDidMount() {
     const { dispatch } = this.props;
@@ -23,8 +25,16 @@ class WalletForm extends Component {
     });
   };
 
+  handleClick = () => {
+    const { dispatch } = this.props;
+    dispatch(fetchPrices(this.state));
+    this.setState({
+      ...INITIAL_STATE,
+    });
+  };
+
   render() {
-    const { value, currency, method, category, description } = this.state;
+    const { value, currency, method, tag, description } = this.state;
     const { currencies } = this.props;
 
     return (
@@ -68,12 +78,12 @@ class WalletForm extends Component {
               <option value="Cartão de crédito">Cartão de crédito</option>
             </select>
           </label>
-          <label htmlFor="category">
+          <label htmlFor="tag">
             Categoria:
             <select
-              name="category"
+              name="tag"
               data-testid="tag-input"
-              value={ category }
+              value={ tag }
               onChange={ this.handleInputs }
             >
               <option value="Alimentação">Alimentação</option>
@@ -93,6 +103,12 @@ class WalletForm extends Component {
               onChange={ this.handleInputs }
             />
           </label>
+          <button
+            type="button"
+            onClick={ this.handleClick }
+          >
+            Adicionar despesa
+          </button>
         </form>
       </div>
     );
