@@ -1,6 +1,10 @@
-export const USER_EMAIL = 'USER_EMAIL';
+import { USER_EMAIL, userEmail } from './userEmail';
+import { GET_CURRENCIES,
+  getCurrencies,
+  fetchCurrencies,
+} from './getCurrencies';
 
-export const userEmail = (email) => ({
-  type: USER_EMAIL,
-  payload: email,
-});
+export {
+  USER_EMAIL, GET_CURRENCIES,
+  userEmail, getCurrencies, fetchCurrencies,
+};
