@@ -9,13 +9,13 @@ class Header extends Component {
 
   calculateTotal = () => {
     const { expenses } = this.props;
-    let total = 0;
+    let total = 0.00;
     total = expenses.reduce((account, current) => {
       const value = current.value * current.exchangeRates[current.currency].ask;
       const actualValue = parseFloat(value) + parseFloat(account);
-      return actualValue.toFixed(2);
+      return actualValue;
     }, 0);
-    return total;
+    return total.toFixed(2);
   };
 
   render() {

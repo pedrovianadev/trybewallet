@@ -1,4 +1,5 @@
 export const GET_PRICES = 'GET_PRICES';
+export const DELETE_EXPENSES = 'DELETE_EXPENSES';
 
 const url = 'https://economia.awesomeapi.com.br/json/all';
 
@@ -20,4 +21,11 @@ export function fetchPrices(expense) {
         dispatch(getPrices(expense, prices));
       })
   );
+}
+
+export function deleteExpenses(payload) {
+  return {
+    type: DELETE_EXPENSES,
+    payload,
+  };
 }
